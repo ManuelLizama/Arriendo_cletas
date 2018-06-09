@@ -1,0 +1,62 @@
+{% extends "users/base.html" %}
+{% load bootstrap3 %}
+{% load thumbnail %}
+{% load staticfiles%}
+{% block title %}
+    Nuevo Cliente
+{% endblock %}
+{% block css %}
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-7">
+			<h3>Clientes</h3>
+			{% if clientes %}
+			<button type="button" id="ocultar" class="btn btn-xs btn-default">Ocultar Tabla</button>
+			<table class="table table-hover" id="tabla">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Telefono</th>
+						<th>Correo</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for c in clientes %}
+					<tr>
+						<td>{{c.nombre}}</td>
+						<td>{{c.telefono}}</td>
+						<td>{{c.correo}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+				No existen clientes creados
+			{% endif %}
+		</div>
+		<div class="col-lg-4 col-lg-offset-1">
+			<h3>Nuevo Cliente</h3>
+			<form action="." method="POST">
+				{% csrf_token %}
+				{% bootstrap_form form %}
+				{% bootstrap_button "Agregar" button_type="submit" button_class="btn-success" %}
+			</form>
+		</div>
+	</div>
+{% endblock %}
+{% block js_lib %}
+<script>
+		$('#ocultar').click(function(){
+			if ($(this).text() == 'Mostrar Tabla'){
+				$(this).text('Ocultar Tabla');
+				$('#tabla').show();
+
+			}else{
+				$(this).text('Mostrar Tabla');
+				$('#tabla').hide();
+			}
+		});
+</script>
+{% endblock %}
